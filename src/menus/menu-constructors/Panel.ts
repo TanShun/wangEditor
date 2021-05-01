@@ -62,7 +62,12 @@ class Panel {
         const rect = menu.editor.$toolbarElem.getBoundingClientRect()
         const menuRect = menu.$elem.getBoundingClientRect()
         const top = rect.height + rect.top - menuRect.top
-        const left = (rect.width - width) / 2 + rect.left - menuRect.left
+        let left = (rect.width - width) / 2 + rect.left - menuRect.left
+        const offset = 300
+        if (Math.abs(left) > offset) {
+            // 减去偏移量，正好在icon正下方
+            left = -menuRect.width / 2
+        }
 
         $container
             .css('width', width + 'px')
