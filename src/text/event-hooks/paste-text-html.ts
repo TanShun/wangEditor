@@ -4,7 +4,7 @@
  */
 
 import Editor from '../../editor/index'
-import { getPasteText, getPasteHtml } from '../paste/paste-event'
+import { getPasteText, getPasteHtml, getPasteImgs } from '../paste/paste-event'
 import { isFunction } from '../../utils/util'
 import { urlRegex } from '../../utils/const'
 import { DomElement } from '../../utils/dom-core'
@@ -165,7 +165,10 @@ function pasteTextHtml(editor: Editor, pasteEvents: Function[]) {
                     // 见 https://github.com/wangeditor-team/wangEditor/issues/3119
                     // 如果是走用户定义的图片上传逻辑
                     const isHasOnlyImgEleReg = /^<img [^>]*src=['"]([^'"]+)[^>]*>$/g
-                    if (!isHasOnlyImgEleReg.test(html)) {
+                    if (
+                        !isHasOnlyImgEleReg.test(html) ||
+                        !getPasteImgs(e as ClipboardEvent).length
+                    ) {
                         editor.cmd.do('insertHTML', html)
                     }
                 }
